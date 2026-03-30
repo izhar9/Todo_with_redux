@@ -1,6 +1,6 @@
 import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { addLoginUser } from "../Features/login";
+import { addLoginUser } from "../Features/loginSlice";
 import { useNavigate } from "react-router-dom";
 
 const Header = () => {

@@ -1,7 +1,7 @@
 import { persistStore, persistReducer } from "redux-persist";
 import { configureStore } from "@reduxjs/toolkit";
-import userReducer from "../Features/signUp";
-import loginUserReducer from "../Features/login"
+import userReducer from "../Features/signUpSlice";
+import loginUserReducer from "../Features/loginSlice"
 
 import {
   FLUSH,

@@ -3,8 +3,8 @@ import { useForm } from "react-hook-form";
 import { Button, Container, Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { type user } from "../Features/signUp";
-import { addLoginUser } from "../Features/login";
+import { type user } from "../Features/signUpSlice";
+import { addLoginUser } from "../Features/loginSlice";
 
 type LoginFormData = {
   username: string;

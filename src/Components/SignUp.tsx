@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { Button, Container, Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { addUser, type user } from "../Features/signUp";
+import { addUser, type user } from "../Features/signUpSlice";
 import { Link, useNavigate } from "react-router-dom";
 
 type FormData = {
