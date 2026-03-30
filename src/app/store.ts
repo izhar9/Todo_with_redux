@@ -2,6 +2,7 @@ import { persistStore, persistReducer } from "redux-persist";
 import { configureStore } from "@reduxjs/toolkit";
 import userReducer from "../Features/signUpSlice";
 import loginUserReducer from "../Features/loginSlice"
+import todoReducer from "../Features/todoSlice"
 
 import {
   FLUSH,
@@ -34,13 +35,20 @@ const loginPersistConfig = {
   storage,
 };
 
+const todoPersistConfig = {
+  key: "todo",
+  storage,
+};
+
 const persistedReducer = persistReducer(signupPersistConfig, userReducer);
 const persistedLoginReducer = persistReducer(loginPersistConfig, loginUserReducer);
+const persistedTodoReducer = persistReducer(todoPersistConfig, todoReducer);
 
 export const store = configureStore({
   reducer: {
     signUpdata: persistedReducer,
     logindata: persistedLoginReducer,
+    tododata: persistedTodoReducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
