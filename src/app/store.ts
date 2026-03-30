@@ -1,6 +1,7 @@
 import { persistStore, persistReducer } from "redux-persist";
 import { configureStore } from "@reduxjs/toolkit";
-import userReducer from "../Features/loginData";
+import userReducer from "../Features/signUp";
+import loginUserReducer from "../Features/login"
 
 import {
   FLUSH,
@@ -11,7 +12,6 @@ import {
   REGISTER,
 } from "redux-persist";
 
-// ✅ Custom storage (no import issues)
 const storage = {
   getItem: (key: string) => Promise.resolve(localStorage.getItem(key)),
   setItem: (key: string, value: string) => {
@@ -24,16 +24,23 @@ const storage = {
   },
 };
 
-const persistConfig = {
-  key: "root",
+const signupPersistConfig = {
+  key: "signup",
   storage,
 };
 
-const persistedReducer = persistReducer(persistConfig, userReducer);
+const loginPersistConfig = {
+  key: "login",
+  storage,
+};
+
+const persistedReducer = persistReducer(signupPersistConfig, userReducer);
+const persistedLoginReducer = persistReducer(loginPersistConfig, loginUserReducer);
 
 export const store = configureStore({
   reducer: {
-    loginData: persistedReducer,
+    signUpdata: persistedReducer,
+    logindata: persistedLoginReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

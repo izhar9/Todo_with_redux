@@ -4,7 +4,7 @@ export type user = {
     id: number;
     name: string;
     username: string;
-    password?: string;
+    password: string;
 };
 
 const initialState: { users: user[] } = {
@@ -12,7 +12,7 @@ const initialState: { users: user[] } = {
 };
 
 const userSlice = createSlice({
-  name: "loginData",
+  name: "signUpdata",
   initialState,
   reducers: {
     addUser: (state, action) => {

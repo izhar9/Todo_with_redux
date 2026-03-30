@@ -1,8 +1,9 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Login from './Components/Login';
 import Layout from './Components/Layout';
 import Todos from './Components/Todos';
+import SignUp from './Components/SignUp';
+import Login from './Components/Login';
 
 function App() {
 
@@ -10,7 +11,9 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path='/' element = {<Layout /> }>
-          <Route path='login' element = {<Login />}/>
+          <Route index element={<Navigate to="/login" replace />} />
+          <Route path='signUp' element = {<SignUp />}/>
+          <Route path='login' element={<Login />} />
           <Route path='todos' element = {<Todos />}/>
         </Route>
       </Routes>

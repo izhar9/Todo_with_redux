@@ -1,53 +1,63 @@
-// Components/Login.tsx
 import { useForm } from "react-hook-form";
 import { Button, Container, Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
+import { addUser, type user } from "../Features/signUp";
 import { Link, useNavigate } from "react-router-dom";
-import { type user } from "../Features/signUp";
-import { addLoginUser } from "../Features/login";
 
-type LoginFormData = {
+type FormData = {
+  name: string;
   username: string;
   password: string;
 };
 
-const Login = () => {
+const SignUp = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors, isSubmitting },
-  } = useForm<LoginFormData>();
+  } = useForm<FormData>();
 
   const users = useSelector(
     (state: { signUpdata: { users: user[] } }) => state.signUpdata.users,
   );
-  const dispatch = useDispatch()
+  console.log("users >>",users)
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const onSubmit = (data: LoginFormData) => {
-    const userExists = users.some(
-      (user) => 
-        user.username.toLowerCase() === data.username.toLowerCase() &&
-        user.password === data.password // Note: In production, you should hash passwords!
-    );
-
-    if (userExists) {
-        dispatch(addLoginUser(data.username))
-        navigate("/todos");
-    } else {
-      alert("Invalid username or password");
-    }
+  const onSubmit = (data: FormData) => {
+    dispatch(addUser(data));
+    navigate("/login");
+    reset();
   };
 
   return (
     <Container className="p-4 bg-black rounded shadow-lg">
-      <h3 className="text-center text-warning mb-4">Login</h3>
+      <h3 className="text-center text-warning mb-4">Sign Up</h3>
 
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Form.Group className="mb-3">
+          <Form.Label>Name</Form.Label>
+          <Form.Control
+            {...register("name", { required: true })}
+            placeholder="Enter Name"
+            className="bg-dark text-light border-secondary"
+          />
+          {errors.name && <p className="text-danger">Name is required</p>}
+        </Form.Group>
+
+        <Form.Group className="mb-3">
           <Form.Label>Username</Form.Label>
           <Form.Control
-            {...register("username", { required: "Username is required" })}
+            {...register("username", {
+              required: "Username is required",
+              validate: (value) => {
+                const exists = users.some(
+                  (user) => user.username.toLowerCase() === value.toLowerCase(),
+                );
+                return exists ? "Username already exists" : true;
+              },
+            })}
             placeholder="Enter Username"
             className="bg-dark text-light border-secondary"
           />
@@ -60,12 +70,12 @@ const Login = () => {
           <Form.Label>Password</Form.Label>
           <Form.Control
             type="password"
-            {...register("password", { required: "Password is required" })}
+            {...register("password", { required: true })}
             placeholder="Enter Password"
             className="bg-dark text-light border-secondary"
           />
           {errors.password && (
-            <p className="text-danger">{errors.password.message}</p>
+            <p className="text-danger">Password is required</p>
           )}
         </Form.Group>
 
@@ -75,12 +85,12 @@ const Login = () => {
           variant="warning"
           disabled={isSubmitting}
         >
-          Login
+          Sign Up
         </Button>
       </Form>
-      <h6 className="my-2 text-center">Don't have an account? <Link to="/signUp">Signup</Link></h6>
+            <h6 className="my-2 text-center">Already have an account? <Link to="/login">Login</Link></h6>
     </Container>
   );
 };
 
-export default Login;
+export default SignUp;

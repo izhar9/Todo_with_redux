@@ -1,21 +1,34 @@
 import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { addLoginUser } from "../Features/login";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
-  return (
-    <Navbar expand="lg" className="bg-body-tertiary">
-      <Container>
-        <Navbar.Brand href="#home">Todo</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="w-100">
-            <Nav.Link href="#home">Home</Nav.Link>
-            <Nav.Link href="#link">Link</Nav.Link>
+  const loginUser = useSelector(
+    (state: { logindata: { username: string } }) => state?.logindata?.username,
+  );
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-            <NavDropdown title="Username" className="ms-auto">
-              <NavDropdown.Item>Logout</NavDropdown.Item>
+  const logout = () => {
+    navigate("/login");
+    dispatch(addLoginUser(""));
+  };
+
+  return (
+    <Navbar expand="lg" className="bg-black px-3 navbar-dark">
+      <Container className="align-items-center justify-content-between">
+        <Navbar.Brand className="fw-bold text-warning">TodoApp</Navbar.Brand>
+        {loginUser && (
+          <Nav>
+            <NavDropdown
+              title={<span className="text-warning">{loginUser}</span>}
+              className="ms-auto"
+            >
+              <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>
             </NavDropdown>
           </Nav>
-        </Navbar.Collapse>
+        )}
       </Container>
     </Navbar>
   );

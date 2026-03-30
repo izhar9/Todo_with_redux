@@ -20,24 +20,39 @@ const Todos = () => {
   };
 
   return (
-    <div className="text-white">
-      <h4>Add / Manage Todos</h4>
+    <div className="bg-black p-4 rounded shadow-lg">
+      <h4 className="text-warning mb-3">Add / Manage Todos</h4>
 
-      <div className="d-flex my-2">
+      <div className="d-flex gap-2 mb-3">
         <Form.Control
           ref={addTodoRef}
-          className="w-100"
-          placeholder="Enter todo"
+          placeholder="Enter todo..."
+          className="bg-dark text-light border-secondary"
         />
-        <Button className="mx-2 w-100" onClick={handleAddTodo}>
-          Add Todo
+
+        <Button variant="warning" onClick={handleAddTodo}>
+          Add
         </Button>
       </div>
 
-      {/* UI rendering */}
-      <ul>
+      <ul className="list-group">
         {todos.map((todo, index) => (
-          <li key={index}>{todo}</li>
+          <li
+            key={index}
+            className="list-group-item d-flex justify-content-between align-items-center bg-dark text-light border-secondary"
+          >
+            {todo}
+
+            <Button
+              size="sm"
+              variant="danger"
+              onClick={() =>
+                setTodos((prev) => prev.filter((_, i) => i !== index))
+              }
+            >
+              Delete
+            </Button>
+          </li>
         ))}
       </ul>
     </div>
